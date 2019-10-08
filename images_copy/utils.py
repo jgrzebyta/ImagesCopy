@@ -14,6 +14,11 @@ class FilePath(object):
         self.directory = directory
         self.filename = filename
 
+    def __eq__(self, other):
+        if not isinstance(other, FilePath):
+            return NotImplemented
+        return self.directory == other.directory and self.filename == other.filename
+
     def as_path(self):
         return self.directory + os.path.sep + self.filename
 
