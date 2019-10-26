@@ -19,6 +19,12 @@ class FilePath(object):
             return NotImplemented
         return self.directory == other.directory and self.filename == other.filename
 
+    def __str__(self):
+        return f"FilePath[ directory: '{self.directory}' filename: '{self.filename}' ]"
+
+    def __repr__(self):
+        return f"FilePath{{ directory: {self.directory!r}, filename: {self.filename!r} }}"
+
     def as_path(self):
         return self.directory + os.path.sep + self.filename
 
@@ -56,3 +62,12 @@ def copy_file(original, target_directory):
     except FileExistsError as err:
         logger.warning('File exists: %s', err.filename)
     return target_file
+
+
+def is_picture(file_path):
+    "Detectrs if given file is a picture."
+    file_ext = file_path.extension()
+    if (file_ext in ['jpg', 'jpeg', 'gif', 'png', 'mp4']):
+        return True
+    else:
+        return False

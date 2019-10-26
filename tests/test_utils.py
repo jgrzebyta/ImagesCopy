@@ -41,3 +41,18 @@ class TestUtils(unittest.TestCase):
         actual = utils.copy_file(original, target_directory)
         self.assertTrue(isinstance(actual, FilePath))
         self.assertTrue(os.path.exists(actual.as_path()))
+
+    def test_files_filter(self):
+        mock_directory = '/tmp/in_data/Some dir'
+        in_files = [FilePath(mock_directory, 'file1.jpg'),
+                    FilePath(mock_directory, 'file2.JPG'),
+                    FilePath(mock_directory, 'file3.json'),
+                    FilePath(mock_directory, 'file4.mp4'),
+                    FilePath(mock_directory, 'file5.html')]
+        actual = list(filter(utils.is_picture, in_files))
+        expected = [FilePath(mock_directory, 'file1.jpg'),
+                    FilePath(mock_directory, 'file2.JPG'),
+                    FilePath(mock_directory, 'file4.mp4')]
+        self.assertTrue(3, actual.__sizeof__)
+        self.assertEqual(expected, actual)
+        logger.info('Actual files: %s', actual)
