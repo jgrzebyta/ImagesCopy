@@ -3,6 +3,7 @@ import pykka
 import logging
 from unittest.mock import MagicMock, Mock
 from pykka import ActorRef
+from queue import LifoQueue
 from images_copy import actors
 from threading import Lock
 from images_copy.actors import DirectoryTarget
@@ -43,3 +44,14 @@ class TestLister(unittest.TestCase):
         consumer_args = stub_consumer.tell.call_args
         logger.info('Consumer args: %s', consumer_args)
 
+
+class TestQueueManager(unittest.TestCase):
+    def setup(self):
+        self.mock_queue = MagicMock(spec=LifoQueue)
+        self.queueManager = actors.QueueManager.start(queue=self.mock_queue)
+
+    def test_put_message(self):
+        None
+
+    def test_get_message(self):
+        None

@@ -2,6 +2,8 @@ import pykka
 import logging
 from collections import namedtuple
 from images_copy import utils
+from queue import LifoQueue
+from images_copy.queue import QueueHolder
 
 logger = logging.getLogger('root')
 
@@ -25,3 +27,10 @@ class LocalLister(pykka.ThreadingActor):
                 self.consumers.append(consumer)
             return len(files)
         return message
+
+
+class QueueManager(pykka.ThreadingActor):
+
+    def __init__(self, queue=LifoQueue()):
+        super(QueueManager, self).__init__()
+        self.queue_holder = QueueHolder()
